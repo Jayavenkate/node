@@ -6,9 +6,6 @@ const { addUsers, removeuser, getuser, getuserinRoom } = require("./entity");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server, {
-  cors: { origin: "http://localhost:8000", methods: ["GET", "POST"] },
-});
 
 //end point
 
@@ -16,6 +13,10 @@ app.get("/", function (req, res) {
   res.send("Hello healtether ");
 });
 app.use(cors());
+app.options("*", cors());
+const io = socketio(server, {
+  cors: { origin: "http://localhost:5173/", methods: ["GET", "POST"] },
+});
 //socket
 
 io.on("connect", (socket) => {
