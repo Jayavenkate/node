@@ -6,7 +6,9 @@ const { addUsers, removeuser, getuser, getuserinRoom } = require("./entity");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server, { cors: { origin: "*" } });
+const io = socketio(server, {
+  cors: { origin: "http://localhost:8000", methods: ["GET", "POST"] },
+});
 
 //end point
 
