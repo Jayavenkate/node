@@ -13,9 +13,13 @@ app.get("/", function (req, res) {
   res.send("Hello healtether ");
 });
 app.use(cors());
-app.options("*", cors());
+
 const io = socketio(server, {
-  cors: { origin: "http://localhost:5173/", methods: ["GET", "POST"] },
+  cors: {
+    origin: "*",
+    credentials: true,
+    methods: ["GET", "POST"],
+  },
 });
 
 app.use((req, res, next) => {
