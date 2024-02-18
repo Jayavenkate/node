@@ -2,11 +2,13 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const socketio = require("socket.io");
+const WebSocket = require("ws");
+
 const { addUsers, removeuser, getuser, getuserinRoom } = require("./entity");
 
 const app = express();
 const server = http.createServer(app);
-
+const wss = new WebSocket.Server({ server });
 //end point
 
 app.get("/", function (req, res) {
@@ -22,15 +24,9 @@ const io = socketio(server, {
   },
 });
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
 //socket
 
-io.on("connect", (socket) => {
+wss.on("connect", (socket) => {
   console.log("user connected");
 
   socket.on("join", ({ name, room }, callBack) => {
